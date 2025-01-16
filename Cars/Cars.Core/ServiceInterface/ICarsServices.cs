@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Cars.Core.Domain;
 
-public class Class1
+namespace Cars.Core.ServiceInterface
 {
-	public Class1()
-	{
-	}
+    public interface ICarsServices
+    {
+        Task<List<Car>> GetAllCarsAsync();
+        Task<Car> GetCarByIdAsync(int id);
+        Task AddCarAsync(Car car);
+        Task UpdateCarAsync(Car car);
+        Task SoftDeleteCarAsync(int id);
+    }
 }
