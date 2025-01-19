@@ -1,8 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Cars.ApplicationServices.Services;
+using Cars.Core.Domain;
+using Cars.Core.ServiceInterface;
 
-public class Class1
+namespace Cars.Controllers
 {
-	public Class1()
-	{
-	}
+    public class CarsController : Controller
+    {
+        private readonly ICarsServices _carsServices;
+
+        public CarsController(ICarsServices carsServices)
+        {
+            _carsServices = carsServices;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var cars = await _carsServices.GetAllCarsAsync();
+            return View(cars); 
+        }
+
+
+    }
 }

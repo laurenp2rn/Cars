@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Cars.Core.Domain.Car>
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<h1>Cars List</h1>
+
+<div class="mb-3">
+    <a href="@Url.Action("Create", "Cars")" class="btn btn-primary">Add New Car</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Model</th>
+            <th>Make</th>
+            <th>Vehicle Type</th>
+            <th>Fuel</th>
+            <th>Created At</th>
+            <th>Modified At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Model</td>
+                <td>@car.Make</td>
+                <td>@car.VehicleType</td>
+                <td>@car.Fuel</td>
+                <td>@car.CreatedAt</td>
+                <td>@car.ModifiedAt</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Cars", new { id = car.Id })" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="@Url.Action("Delete", "Cars", new { id = car.Id })" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

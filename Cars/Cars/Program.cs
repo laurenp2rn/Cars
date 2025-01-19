@@ -1,7 +1,6 @@
 using Cars.ApplicationServices.Services;
 using Cars.Data;
 using Cars.Core.ServiceInterface;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,10 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure services
 builder.Services.AddDbContext<CarsContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("Cars")); // M‰‰rab migratsioonide kogumi
 });
-builder.Services.AddScoped<ICarsServices, CarsServices>();
 
+// Register application services
+builder.Services.AddScoped<ICarsServices, CarsServices>(); // Add your service here
+
+// Add MVC support
 builder.Services.AddControllersWithViews(); // For MVC architecture
 builder.Services.AddEndpointsApiExplorer(); // For API endpoints if needed
 
@@ -34,12 +38,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Add authorization middleware
 app.UseAuthorization();
 
-// Set up default route
+// Set up default route for controllers
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Run the app
+// Run the application
 app.Run();
