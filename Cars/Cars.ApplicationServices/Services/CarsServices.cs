@@ -1,7 +1,11 @@
 ﻿using Cars.Core.Domain;
-using Microsoft.EntityFrameworkCore;
 using Cars.Core.ServiceInterface;
 using Cars.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cars.ApplicationServices.Services
 {
@@ -52,6 +56,21 @@ namespace Cars.ApplicationServices.Services
                 _context.Cars.Update(car);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task CreateCarAsync(Car car)
+        {
+            car.CreatedAt = DateTime.UtcNow;
+            car.ModifiedAt = DateTime.UtcNow;
+            car.Deleted = false;
+
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
+        }
+
+        public Task CreateCarAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
