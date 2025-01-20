@@ -35,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Cars}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // M‰‰rasime, et vaikimisi avatakse Home kontrolleri Index tegevus
 
 app.Run();
