@@ -56,15 +56,31 @@ namespace Cars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Car car)
+        public async Task<IActionResult> Edit(int id, Car car)
         {
+            if (id != car.Id)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(car);
             }
 
-            car.ModifiedAt = DateTime.UtcNow;
-            await _carsServices.UpdateCarAsync(car);
+            var existingCar = await _carsServices.GetCarByIdAsync(id);
+            if (existingCar == null)
+            {
+                return NotFound();
+            }
+
+            existingCar.Make = car.Make;
+            existingCar.Model = car.Model;
+            existingCar.VehicleType = car.VehicleType;
+            existingCar.Fuel = car.Fuel;
+            existingCar.ModifiedAt = DateTime.UtcNow;
+
+            await _carsServices.UpdateCarAsync(existingCar);
             return RedirectToAction(nameof(Index));
         }
 
