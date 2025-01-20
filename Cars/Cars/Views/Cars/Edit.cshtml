@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Cars.Core.Domain.Car
+
+<h1>Edit Car</h1>
+
+<form asp-action="Edit" method="post">
+    <div>
+        <label for="Id">Id</label>
+        <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+    </div>
+    <div>
+        <label for="Make">Make</label>
+        <input type="text" id="Make" name="Make" value="@Model.Make" />
+    </div>
+    <div>
+        <label for="Model">Model</label>
+        <input type="text" id="Model" name="Model" value="@Model.Model" />
+    </div>
+    <div>
+        <label for="VehicleType">Vehicle Type</label>
+        <input type="text" id="VehicleType" name="VehicleType" value="@Model.VehicleType" />
+    </div>
+    <div>
+        <label for="Fuel">Fuel</label>
+        <input type="text" id="Fuel" name="Fuel" value="@Model.Fuel" />
+    </div>
+    <button type="submit">Save Changes</button>
+</form>

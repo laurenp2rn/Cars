@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Cars.ApplicationServices.Services;
 using Cars.Core.Domain;
 using Cars.Core.ServiceInterface;
+using System;
+using System.Threading.Tasks;
 
 namespace Cars.Controllers
 {
@@ -14,35 +15,76 @@ namespace Cars.Controllers
             _carsServices = carsServices;
         }
 
-        // GET: Cars
         public async Task<IActionResult> Index()
         {
             var cars = await _carsServices.GetAllCarsAsync();
             return View(cars);
         }
 
-        // GET: Cars/Create
         [HttpGet]
         public IActionResult Create()
         {
-            return View(); // Kuvab vormi auto loomiseks
+            return View();
         }
 
-        // POST: Cars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Car car)
         {
             if (!ModelState.IsValid)
             {
-                return View(car); // Kui valideerimine ebaõnnestub, kuvab sama vormi
+                return View(car);
             }
 
             car.CreatedAt = DateTime.UtcNow;
             car.ModifiedAt = DateTime.UtcNow;
 
-            await _carsServices.AddCarAsync(car); // Kutsutakse teenuse loomise meetod
-            return RedirectToAction(nameof(Index)); // Suunatakse tagasi autode nimekirja
+            await _carsServices.AddCarAsync(car);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var car = await _carsServices.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Car car)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(car);
+            }
+
+            car.ModifiedAt = DateTime.UtcNow;
+            await _carsServices.UpdateCarAsync(car);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var car = await _carsServices.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _carsServices.SoftDeleteCarAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

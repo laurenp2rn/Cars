@@ -9,7 +9,5 @@ namespace Cars.Core.ServiceInterface
         Task AddCarAsync(Car car);
         Task UpdateCarAsync(Car car);
         Task SoftDeleteCarAsync(int id);
-        Task CreateCarAsync(int id);
-        Task CreateCarAsync(Car car);
     }
 }
