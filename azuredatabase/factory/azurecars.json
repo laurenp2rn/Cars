@@ -1,0 +1,9 @@
+{
+	"name": "azurecars",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d1184955-4dd9-4791-a448-1634a46e0e81",
+		"tenantId": "dff6d40e-7b86-4b01-81ed-b35d7ad98541"
+	}
+}
